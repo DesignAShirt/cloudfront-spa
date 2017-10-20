@@ -11,11 +11,15 @@ For example, you can have a staging site and deploy every git branch to a folder
 
 Use a list of git branches as root urls:
 
-    git branch --list -r | awk -F origin '{print $2 "/"}' | node listToFile.js > roots.json
+    git branch --list -r \
+        | awk -F origin '{print $2 "/"}' \
+        | node listToFile.js > roots.json
 
 And a list of files in an s3 bucket as file URLs:
 
-    aws s3 ls --recursive s3-bucket | awk '{print "/" $4}' | node listToFile.js > files.json
+    aws s3 ls --recursive s3-bucket \
+        | awk '{print "/" $4}' \
+        | node listToFile.js > files.json
 
 You can use `create-path-files.sh` to do this automatically:
 
