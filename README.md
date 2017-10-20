@@ -11,11 +11,15 @@ For example, you can have a staging site and deploy every git branch to a folder
 
 Use a list of git branches as root urls:
 
-    git branch --list -r | awk -F origin '{print $2 "/"}' | node listToFile.js > roots.js
+    git branch --list -r | awk -F origin '{print $2 "/"}' | node listToFile.js > roots.json
 
 And a list of files in an s3 bucket as file URLs:
 
-    aws s3 ls --recursive s3-bucket | awk '{print "/" $4}' | node listToFile.js > files.js
+    aws s3 ls --recursive s3-bucket | awk '{print "/" $4}' | node listToFile.js > files.json
+
+You can use `create-path-files.sh` to do this automatically:
+
+    ./create-path-files.sh git@github.com:DesignAShirt/fc-das-neue-designer.git designer-demo
 
 
 If somebody visits `<cloudfront id>.cloudfront.net/feature/branch1/editor?subtab=text&tab=text`, this app will check for the following paths:
@@ -27,4 +31,9 @@ If it can't find those URLs, it just passes the url straight through for cloudfr
 
 
 The original purpose of this is to set up testing for the design studio. The root urls are generated from the git branch names, and each branch gets it's own deploy on s3. After a branch is created or removed, this function is redeployed with an updated routes.json file.
+
+
+TODO: deploy
+npm pack
+deploy file
 
