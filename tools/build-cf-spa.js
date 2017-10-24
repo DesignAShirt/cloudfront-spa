@@ -18,6 +18,7 @@ const argv = yargs
     .argv;
 
 const { routes, output } = argv;
+const outFile = join(process.cwd(), output);
 
 const inputOptions = {
     input: require.resolve("../lib/index.js"),
@@ -31,18 +32,16 @@ const inputOptions = {
 };
 
 const outputOptions = {
-    file: join(process.cwd(), output),
+    file: outFile,
     format: "cjs",
     sourcemap: false
 };
 
-async function build() {
-    try {
-        const bundle = await rollup(inputOptions);
-        await bundle.write(outputOptions);
-    } catch (x) {
-        console.error("Error:", x);
-    }
+function build() {
+    return rollup(inputOptions)
+        .then(bundle => bundle.write(outputOptions))
+        .then(done => console.log("SPA app bundle written to", outFile))
+        .catch(err => console.error("Error:", err));
 }
 
 build();
