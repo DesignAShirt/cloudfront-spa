@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * Take a list of items from stdin, and create a json file with an array.
  */

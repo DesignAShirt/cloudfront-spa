@@ -23,7 +23,3 @@ node_modules/
 
 # until NPM stops having issues with it
 package-lock.json
-
-# Project specific files
-/files.json
-/roots.json

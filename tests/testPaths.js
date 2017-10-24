@@ -1,9 +1,8 @@
 const { expect } = require("chai");
 
-const { getHandler } = require("../getHandler.js");
+const { getHandler } = require("../lib/getHandler.js");
 
-const rootPaths = require("./data/roots.json");
-const filePaths = require("./data/files.json");
+const { rootPaths, filePaths } = require("./data/paths.json");
 
 const handler = getHandler(rootPaths, filePaths);
 
@@ -72,6 +71,22 @@ describe("missing URLs", () => {
             (err, req) => {
                 expect(err).to.equal(null);
                 expect(req.uri).to.equal(uri);
+                cb();
+            }
+        );
+    });
+});
+
+describe("paths page", () => {
+    it("should give you html", (cb) => {
+        const uri = "/rootpages.html";
+        handler(
+            makeTestRequest(uri),
+            null,
+            (err, req) => {
+                expect(err).to.equal(null);
+                expect(req.status).to.equal("200");
+                expect(req.body).to.equal('<html><body><a href="/feature/test/">/feature/test/</a><br /><a href="/feature/more-tests/">/feature/more-tests/</a><br /></body></html>');
                 cb();
             }
         );
